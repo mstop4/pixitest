@@ -39,8 +39,9 @@ function loadProgressHandler(loader, resource) {
   console.log(`Loading "${resource.url}" ... ${loader.progress}%`)
 }
 
-var sprBunny
-var sprKitty
+let sprBunny
+let sprKitty
+var gravity = 0.2
 
 function setup() {
   console.log("Setting up sprites...")
@@ -57,7 +58,7 @@ function setup() {
   sprBunny.anchor.set(0.5,0.5)
   //sprBunny.pivot.set(100,100)
 
-  sprKitty.x = 100
+  sprKitty.x = 200
   sprKitty.y = 200
   sprKitty.width = 200
   sprKitty.height = 200
@@ -67,16 +68,57 @@ function setup() {
   stage.addChild(sprBunny)
   stage.addChild(sprKitty)
 
+  console.dir(renderer)
+
+  sprBunny.vx = -5
+  sprBunny.vy = 0
+
+  sprKitty.vx = 5
+  sprKitty.vy = 0
+
   gameLoop()
 }
+
+let frameSkip = 0
+let fsIndex = 0
 
 function gameLoop() {
 
   requestAnimationFrame(gameLoop);
 
-  sprBunny.rotation += 0.01
-  sprKitty.rotation -= 0.01
+  moveSprite(sprBunny)
+  moveSprite(sprKitty)
 
   //Tell the `renderer` to `render` the `stage`
-  renderer.render(stage)
+  if (fsIndex === frameSkip) {
+    renderer.render(stage)
+    fsIndex = 0
+  } else {
+    fsIndex++
+  }
+}
+
+function moveSprite(spr) {
+
+  spr.vy += gravity
+
+  spr.x += spr.vx
+  spr.y += spr.vy
+
+  spr.x = clamp(spr.x, spr.width / 2, renderer.view.width - spr.width / 2)
+  spr.y = clamp(spr.y, spr.height / 2, renderer.view.height - spr.height / 2)
+
+  if (spr.x === spr.width / 2 || spr.x === renderer.view.width - spr.width / 2) {
+    spr.vx *= -0.9
+    spr.vy *= 0.9
+  }
+
+  if (spr.y === spr.height / 2 || spr.y === renderer.view.height - spr.height / 2) {
+    spr.vy *= -0.9
+    spr.vx *= 0.9
+  }
+}
+
+function clamp (num, min, max) {
+  return Math.max(min, Math.min(max, num))
 }
