@@ -5,42 +5,6 @@ if(!PIXI.utils.isWebGLSupported()){
 
 PIXI.utils.sayHello(type)
 
-// Sprite Loader setup
-function loadProgressHandler(loader, resource) {
-  console.log(`Loading "${resource.url}" ... ${loader.progress}%`)
-}
-
-function setup() {
-  console.log("Setting up sprites...")
-
-  var sprBunny = new PIXI.Sprite(
-    PIXI.loader.resources["../images/bunny.jpg"].texture
-  )
-  var sprKitty = new PIXI.Sprite(
-    PIXI.loader.resources.kitty.texture
-  )
-
-  sprBunny.position.set(450,200)
-  sprBunny.scale.set(0.5,0.5)
-  sprBunny.anchor.set(0.5,0.5)
-  //sprBunny.pivot.set(100,100)
-  sprBunny.rotation = 1
-
-  sprKitty.x = 100
-  sprKitty.y = 200
-  sprKitty.width = 200
-  sprKitty.height = 200
-  sprKitty.anchor.x = 0.5
-  sprKitty.anchor.y = 0.5
-  sprKitty.rotation = -1
-
-  stage.addChild(sprBunny)
-  stage.addChild(sprKitty)
-
-  //Tell the `renderer` to `render` the `stage`
-  renderer.render(stage)
-}
-
 //Create the renderer
 let renderer = PIXI.autoDetectRenderer(256, 256)
 renderer.view.style.border = "1px dashed black"
@@ -69,3 +33,50 @@ PIXI.loader
   })
   .on("progress", loadProgressHandler)
   .load(setup)
+
+// Sprite Loader setup
+function loadProgressHandler(loader, resource) {
+  console.log(`Loading "${resource.url}" ... ${loader.progress}%`)
+}
+
+var sprBunny
+var sprKitty
+
+function setup() {
+  console.log("Setting up sprites...")
+
+  sprBunny = new PIXI.Sprite(
+    PIXI.loader.resources["../images/bunny.jpg"].texture
+  )
+  sprKitty = new PIXI.Sprite(
+    PIXI.loader.resources.kitty.texture
+  )
+
+  sprBunny.position.set(450,200)
+  sprBunny.scale.set(0.5,0.5)
+  sprBunny.anchor.set(0.5,0.5)
+  //sprBunny.pivot.set(100,100)
+
+  sprKitty.x = 100
+  sprKitty.y = 200
+  sprKitty.width = 200
+  sprKitty.height = 200
+  sprKitty.anchor.x = 0.5
+  sprKitty.anchor.y = 0.5
+
+  stage.addChild(sprBunny)
+  stage.addChild(sprKitty)
+
+  gameLoop()
+}
+
+function gameLoop() {
+
+  requestAnimationFrame(gameLoop);
+
+  sprBunny.rotation += 0.01
+  sprKitty.rotation -= 0.01
+
+  //Tell the `renderer` to `render` the `stage`
+  renderer.render(stage)
+}
