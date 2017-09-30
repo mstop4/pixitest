@@ -20,10 +20,19 @@ function setup() {
     PIXI.loader.resources.kitty.texture
   )
 
-  sprBunny.x = 450
-  sprBunny.y = 50
+  sprBunny.position.set(450,200)
+  sprBunny.scale.set(0.5,0.5)
+  sprBunny.anchor.set(0.5,0.5)
+  //sprBunny.pivot.set(100,100)
+  sprBunny.rotation = 1
 
-  sprKitty.y = 50
+  sprKitty.x = 100
+  sprKitty.y = 200
+  sprKitty.width = 200
+  sprKitty.height = 200
+  sprKitty.anchor.x = 0.5
+  sprKitty.anchor.y = 0.5
+  sprKitty.rotation = -1
 
   stage.addChild(sprBunny)
   stage.addChild(sprKitty)
