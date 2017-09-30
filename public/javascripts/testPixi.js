@@ -6,13 +6,28 @@ if(!PIXI.utils.isWebGLSupported()){
 PIXI.utils.sayHello(type)
 
 // Sprite Loader setup
+function loadProgressHandler(loader, resource) {
+  console.log(`Loading "${resource.url}" ... ${loader.progress}%`)
+}
+
 function setup() {
+  console.log("Setting up sprites...")
+
   var sprBunny = new PIXI.Sprite(
     PIXI.loader.resources["../images/bunny.jpg"].texture
   )
+  var sprKitty = new PIXI.Sprite(
+    PIXI.loader.resources.kitty.texture
+  )
+
+  sprBunny.x = 450
+  sprBunny.y = 50
+
+  sprKitty.y = 50
 
   stage.addChild(sprBunny)
-  
+  stage.addChild(sprKitty)
+
   //Tell the `renderer` to `render` the `stage`
   renderer.render(stage)
 }
@@ -37,4 +52,11 @@ let stage = new PIXI.Container()
 // Load sprites to cache
 PIXI.loader
   .add("../images/bunny.jpg")
+  .add({
+    name: "kitty",
+    url: "../images/kitty.jpg",
+    crossOrigin: false,
+    onComplete: function () {console.log("Meow")}
+  })
+  .on("progress", loadProgressHandler)
   .load(setup)
