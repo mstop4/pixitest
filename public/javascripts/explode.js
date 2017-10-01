@@ -1,9 +1,6 @@
-let renderer = undefined
-let stage = undefined
 let bunnyContainer = undefined
 let kittyContainer = undefined
-let sprites = []
-let textureURIs = ["../images/bunny.jpg", "../images/kitty.jpg"]
+let textureURIs = ["../images/bunny.jpg"]
 
 let numColumns = 50
 let numRows = 50
@@ -25,9 +22,11 @@ function setup() {
     bunnyContainer.interactive = true
     bunnyContainer.buttonMode = true
 
-    bunnyContainer.on('pointerdown', explodeTiles)
+    bunnyContainer.on('tap', explodeTiles)
 
     stage.addChild(bunnyContainer)
+
+    console.dir(bunnyContainer)
 
     let cellWidth = 400 / numColumns
     let cellHeight = 400 / numRows
@@ -74,6 +73,17 @@ function setup() {
   
     requestAnimationFrame(gameLoop);
   
+    let now = window.performance.now()
+    let deltaTime = now - then
+    then = now
+
+    fpsHistory.push(1000 / deltaTime)
+    if (fpsHistory.length > 20) {
+        fpsHistory = fpsHistory.slice(1, 21)
+    }
+
+    let sum = fpsHistory.reduce( function (a, b) { return a+b })
+    fpsText.setText(sum / fpsHistory.length)
     collapseTiles()
 
     //Tell the `renderer` to `render` the `stage`
@@ -118,7 +128,7 @@ function setup() {
 
   function explodeTiles() {
 
-    console.dir(renderer.plugins)
+    console.log("kaboom")
 
     sprites.forEach( function(spr) {
       spr.physicsOn = true;

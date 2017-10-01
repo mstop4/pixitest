@@ -1,3 +1,11 @@
+let renderer = undefined
+let stage = undefined
+let sprites = []
+
+let fpsText = undefined
+let fpsHistory = []
+let then = window.performance.now()
+
 function initApp() {
 
     let type = "WebGL"
@@ -22,6 +30,12 @@ function initApp() {
 
     //Create a container object called the `stage`
     stage = new PIXI.Container()
+
+    fpsText = new PIXI.Text("0")
+    fpsText.x = 16
+    fpsText.y = 50
+
+    stage.addChild(fpsText)
 }
 
 // Load sprites to cache

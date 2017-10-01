@@ -1,14 +1,10 @@
-let renderer = undefined
-let stage = undefined
-let sprites = []
-let textureURIs = ["../videos/escalator.mp4"]
-let videoContainer = undefined
+let textureURIs = ["../videos/bunny.mp4"]
 
-let videoScale = 0.5
+let videoScale = 1
 let numRows = 18
-let numColumns = 32 
-let xOffset = 100
-let yOffset = 100
+let numColumns = 32
+let xOffset = 0
+let yOffset = 0
 let gravity = 0.1
 let bounceDamping = 0.8
 
@@ -29,8 +25,8 @@ function setup() {
 
     stage.addChild(videoContainer)
 
-    let cellWidth = 1920 / numColumns
-    let cellHeight = 1080 / numRows
+    let cellWidth = 1280 / numColumns
+    let cellHeight = 720 / numRows
 
     for (let i = 0; i < numRows; i++) {
         for (let j = 0; j < numColumns; j++) {
@@ -51,8 +47,6 @@ function setup() {
             newSprite.physicsOn = false
             sprites.push(newSprite)
 
-            console.log(j*cellWidth, i*cellHeight, cellWidth, cellHeight, newSprite.x, newSprite.y, newSprite.width, newSprite.height)
-
             videoContainer.addChild(newSprite)
         }
     }
@@ -63,6 +57,18 @@ function setup() {
 function gameLoop() {
 
     requestAnimationFrame(gameLoop)
+
+    let now = window.performance.now()
+    let deltaTime = now - then
+    then = now
+
+    fpsHistory.push(1000 / deltaTime)
+    if (fpsHistory.length > 20) {
+        fpsHistory = fpsHistory.slice(1, 21)
+    }
+
+    let sum = fpsHistory.reduce( function (a, b) { return a+b })
+    fpsText.setText(sum / fpsHistory.length)
 
     collapseTiles()
 
