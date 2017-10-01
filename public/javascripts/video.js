@@ -7,22 +7,23 @@ let frameSkip = 0
 let fsIndex = 0
 
 initApp()
-//loadTextures(textureURIs, setup)
-setup()
+loadTextures(textureURIs, setup)
 
 function setup() {
     console.log("Setting up video...")
 
-    let texture = PIXI.Texture.fromVideo(textureURIs[0]);
+    let texture = PIXI.Texture.fromVideo(PIXI.loader.resources[textureURIs[0]].data);
     
     // create a new Sprite using the video texture (yes it's that easy)
-    let videoSprite = new PIXI.Sprite(texture);
+    let video = new PIXI.Sprite(texture);
 
     // Stetch the fullscreen
-    videoSprite.width = renderer.width;
-    videoSprite.height = renderer.height;
+    video.width = 640;
+    video.height = 360;
+    video.texture.baseTexture.source.loop = true;
+    console.dir(video.texture.baseTexture.source.loop )
 
-    stage.addChild(videoSprite); 
+    stage.addChild(video); 
 
     gameLoop()
   }
