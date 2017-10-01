@@ -26,8 +26,6 @@ function setup() {
 
     stage.addChild(bunnyContainer)
 
-    console.dir(bunnyContainer)
-
     let cellWidth = 400 / numColumns
     let cellHeight = 400 / numRows
 
