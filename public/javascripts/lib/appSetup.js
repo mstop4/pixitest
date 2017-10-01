@@ -32,8 +32,8 @@ function initApp() {
     stage = new PIXI.Container()
 
     fpsText = new PIXI.Text("0")
-    fpsText.x = 16
-    fpsText.y = 50
+    fpsText.x = 100
+    fpsText.y = 0
 
     stage.addChild(fpsText)
 }
@@ -49,5 +49,31 @@ function loadTextures(texArray, setup) {
     // Sprite Loader setup
     function loadProgressHandler(loader, resource) {
         console.log(`Loading "${resource.url}" ... ${loader.progress}%`)
+    }
+}
+
+function gameLoop() {
+    requestAnimationFrame(gameLoop);
+
+    let now = window.performance.now()
+    let deltaTime = now - then
+    then = now
+
+    fpsHistory.push(1000 / deltaTime)
+    if (fpsHistory.length > 20) {
+        fpsHistory = fpsHistory.slice(1, 21)
+    }
+
+    let sum = fpsHistory.reduce( function (a, b) { return a+b })
+    fpsText.setText(`FPS: ${(sum / fpsHistory.length).toFixed(2)}`)
+
+    processTiles()
+
+    //Tell the `renderer` to `render` the `stage`
+    if (fsIndex === frameSkip) {
+        renderer.render(stage)
+        fsIndex = 0
+    } else {
+        fsIndex++
     }
 }
