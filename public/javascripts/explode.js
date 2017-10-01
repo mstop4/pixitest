@@ -7,7 +7,7 @@ let textureURIs = ["../images/bunny.jpg", "../images/kitty.jpg"]
 
 let numColumns = 50
 let numRows = 50
-let xOffset = 500
+let xOffset = 100
 let yOffset = 100
 let gravity = 0.1
 let bounceDamping = 0.8
