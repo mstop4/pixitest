@@ -51,8 +51,8 @@ function loadTextures(texArray, setup) {
     }
 }
 
-function gameLoop() {
-    requestAnimationFrame(gameLoop);
+function gameLoop(updateFunc) {
+    requestAnimationFrame(function () { gameLoop(updateFunc) } );
 
     let now = window.performance.now()
     let deltaTime = now - then
@@ -66,7 +66,7 @@ function gameLoop() {
     let sum = fpsHistory.reduce( function (a, b) { return a+b })
     fpsText.setText(`FPS: ${(sum / fpsHistory.length).toFixed(2)}`)
 
-    processTiles()
+    updateFunc()
 
     //Tell the `renderer` to `render` the `stage`
     if (fsIndex === frameSkip) {

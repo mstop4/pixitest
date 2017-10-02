@@ -1,4 +1,4 @@
-let textureURIs = ["../videos/escalator.mp4"]
+let textureURIs = ["../videos/waves.mp4"]
 let videoContainer = undefined
 let videoScale = 1
 let numRows = 36
@@ -49,5 +49,5 @@ function setup() {
         }
     }
 
-    gameLoop()
+    gameLoop(processTiles)
 }

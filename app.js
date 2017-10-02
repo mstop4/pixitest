@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var bounce = require('./routes/bounce');
 var video = require('./routes/video');
 var explode = require('./routes/explode');
+var drag = require('./routes/drag');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/bounce', bounce);
 app.use('/video', video);
+app.use('/drag', drag);
 app.use('/', explode);
 
 // catch 404 and forward to error handler

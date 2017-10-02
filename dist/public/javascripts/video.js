@@ -1,6 +1,6 @@
 "use strict";
 
-var textureURIs = ["../videos/escalator.mp4"];
+var textureURIs = ["../videos/waves.mp4"];
 var videoContainer = undefined;
 var videoScale = 1;
 var numRows = 36;
@@ -23,7 +23,7 @@ function setup() {
         handleClick(videoContainer);
     });
 
-    stage.addChild(videoContainer);
+    pixiApp.stage.addChild(videoContainer);
 
     var cellWidth = 960 / numColumns;
     var cellHeight = 540 / numRows;
@@ -53,5 +53,5 @@ function setup() {
         }
     }
 
-    gameLoop();
+    gameLoop(processTiles);
 }

@@ -62,5 +62,5 @@ function setup() {
       }
   }
 
-  gameLoop()
+  gameLoop(processTiles)
 }

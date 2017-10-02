@@ -1,7 +1,6 @@
 "use strict";
 
-var renderer = undefined;
-var stage = undefined;
+var pixiApp = undefined;
 var sprites = [];
 
 var fpsText = undefined;
@@ -17,27 +16,27 @@ function initApp() {
 
     PIXI.utils.sayHello(type);
 
-    //Create the renderer
-    renderer = PIXI.autoDetectRenderer(256, 256);
-    renderer.backgroundColor = 0x808080;
+    pixiApp = new PIXI.Application(window.innerWidth, window.innerHeight, {
+        backgroundColor: 0x808080
+    });
 
     // Full window canvas
-    renderer.view.style.position = "absolute";
-    renderer.view.style.display = "block";
-    renderer.autoResize = true;
-    renderer.resize(window.innerWidth, window.innerHeight);
+    pixiApp.renderer.view.style.position = "absolute";
+    pixiApp.renderer.view.style.display = "block";
+    pixiApp.renderer.autoResize = true;
 
     //Add the canvas to the HTML document
-    document.body.appendChild(renderer.view);
+    document.body.appendChild(pixiApp.view);
 
-    //Create a container object called the `stage`
-    stage = new PIXI.Container();
+    window.addEventListener("resize", function () {
+        pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+    });
 
     fpsText = new PIXI.Text("0");
     fpsText.x = 300;
     fpsText.y = 0;
 
-    stage.addChild(fpsText);
+    pixiApp.stage.addChild(fpsText);
 }
 
 // Load sprites to cache
@@ -51,8 +50,10 @@ function loadTextures(texArray, setup) {
     }
 }
 
-function gameLoop() {
-    requestAnimationFrame(gameLoop);
+function gameLoop(updateFunc) {
+    requestAnimationFrame(function () {
+        gameLoop(updateFunc);
+    });
 
     var now = window.performance.now();
     var deltaTime = now - then;
@@ -68,11 +69,11 @@ function gameLoop() {
     });
     fpsText.setText("FPS: " + (sum / fpsHistory.length).toFixed(2));
 
-    processTiles();
+    updateFunc();
 
     //Tell the `renderer` to `render` the `stage`
     if (fsIndex === frameSkip) {
-        renderer.render(stage);
+        pixiApp.renderer.render(pixiApp.stage);
         fsIndex = 0;
     } else {
         fsIndex++;

@@ -24,7 +24,7 @@ function setup() {
         handleClick(bunnyContainer);
     });
 
-    stage.addChild(bunnyContainer);
+    pixiApp.stage.addChild(bunnyContainer);
 
     var cellWidth = 400 / numColumns;
     var cellHeight = 400 / numRows;
@@ -66,5 +66,5 @@ function setup() {
         }
     }
 
-    gameLoop();
+    gameLoop(processTiles);
 }
