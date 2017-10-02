@@ -28,22 +28,22 @@ function processTiles() {
             }
         } else {
             // tiles repairing
-            spr.x += spr.vx
-            spr.y += spr.vy
-            
-            spr.x = clamp(spr.x, spr.width / 2, pixiApp.renderer.view.width - spr.width / 2)
-            spr.y = clamp(spr.y, spr.height / 2, pixiApp.renderer.view.height - spr.height / 2)
+            if (spr.x != spr.xStart && spr.y != spr.yStart) {
+                spr.x += spr.vx
+                spr.y += spr.vy
+                
+                //spr.x = clamp(spr.x, spr.width / 2, pixiApp.renderer.view.width - spr.width / 2)
+                //spr.y = clamp(spr.y, spr.height / 2, pixiApp.renderer.view.height - spr.height / 2)
 
-            if (Math.abs(spr.x - spr.xStart) <= Math.abs(spr.vx)) {
-                spr.vx = 0
-                spr.x = spr.xStart
-                //console.log("X")
-            }
+                if (Math.abs(spr.x - spr.xStart) <= Math.abs(spr.vx)) {
+                    spr.vx = 0
+                    spr.x = spr.xStart
+                }
 
-            if (Math.abs(spr.y - spr.yStart) <= Math.abs(spr.vy)) {
-                spr.vy = 0
-                spr.y = spr.yStart
-                //console.log("Y")
+                if (Math.abs(spr.y - spr.yStart) <= Math.abs(spr.vy)) {
+                    spr.vy = 0
+                    spr.y = spr.yStart
+                }
             }
         }
     })

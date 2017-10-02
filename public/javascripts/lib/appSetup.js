@@ -26,6 +26,10 @@ function initApp() {
     //Add the canvas to the HTML document
     document.body.appendChild(pixiApp.view)
 
+    window.addEventListener("resize", function () {
+        pixiApp.renderer.resize(window.innerWidth, window.innerHeight)
+    })
+
     fpsText = new PIXI.Text("0")
     fpsText.x = 300
     fpsText.y = 0
