@@ -35,6 +35,8 @@ function setup() {
 
             newSprite.x = xOffset + (j+0.5)*(cellWidth * videoScale)
             newSprite.y = yOffset + (i+0.5)*(cellHeight * videoScale)
+            newSprite.xStart = newSprite.x
+            newSprite.yStart = newSprite.y
             newSprite.vx = 0
             newSprite.vy = 0
             newSprite.width = cellWidth / numColumns * videoScale

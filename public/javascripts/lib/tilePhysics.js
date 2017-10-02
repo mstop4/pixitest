@@ -34,14 +34,16 @@ function processTiles() {
             spr.x = clamp(spr.x, spr.width / 2, renderer.view.width - spr.width / 2)
             spr.y = clamp(spr.y, spr.height / 2, renderer.view.height - spr.height / 2)
 
-            if (Math.abs(spr.x - spr.xStart) <= spr.vx) {
+            if (Math.abs(spr.x - spr.xStart) <= Math.abs(spr.vx)) {
                 spr.vx = 0
                 spr.x = spr.xStart
+                //console.log("X")
             }
 
-            if (Math.abs(spr.y - spr.yStart) <= spr.vy) {
+            if (Math.abs(spr.y - spr.yStart) <= Math.abs(spr.vy)) {
                 spr.vy = 0
                 spr.y = spr.yStart
+                //console.log("Y")
             }
         }
     })
@@ -66,19 +68,21 @@ function explodeTiles() {
         let direction = Math.random() * 360
         let speed = Math.random() * 5
 
-        spr.vx = speed * Math.cos(direction * 180 / Math.PI)
-        spr.vy = speed * Math.sin(direction * 180 / Math.PI)
+        spr.vx = speed * Math.cos(direction * Math.PI / 180)
+        spr.vy = speed * -Math.sin(direction * Math.PI / 180)
     })
 }
 
 function fixTiles() {
     sprites.forEach( function(spr) {
         spr.physicsOn = false;
-        let direction = Math.atan( (spr.y - spr.yStart) / (spr.x - spr.xStart) ) * 180 / Math.PI
-        let speed = 1
+        let dy = spr.y - spr.yStart
+        let dx = spr.x - spr.xStart
+        let direction = Math.atan2( -dy, dx ) * 180 / Math.PI + 180
+        let speed = 4
 
-        spr.vx = speed * Math.cos(direction * 180 / Math.PI)
-        spr.vy = speed * Math.sin(direction * 180 / Math.PI)
+        spr.vx = speed * Math.cos(direction * Math.PI / 180)
+        spr.vy = speed * -Math.sin(direction * Math.PI / 180)
     })
 }
 
