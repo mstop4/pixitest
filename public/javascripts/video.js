@@ -1,5 +1,5 @@
 let textureURIs = ["../videos/escalator.mp4"]
-
+let videoContainer = undefined
 let videoScale = 1
 let numRows = 36
 let numColumns = 64

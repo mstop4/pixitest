@@ -1,7 +1,7 @@
 "use strict";
 
 var textureURIs = ["../videos/escalator.mp4"];
-
+var videoContainer = undefined;
 var videoScale = 1;
 var numRows = 36;
 var numColumns = 64;
