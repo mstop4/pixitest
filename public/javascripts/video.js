@@ -19,7 +19,7 @@ function setup() {
 
     videoContainer.on('pointerdown', function () {handleClick(videoContainer)} )
 
-    stage.addChild(videoContainer)
+    pixiApp.stage.addChild(videoContainer)
 
     let cellWidth = 960 / numColumns
     let cellHeight = 540 / numRows

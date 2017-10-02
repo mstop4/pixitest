@@ -14,15 +14,15 @@ function processTiles() {
             spr.x += spr.vx
             spr.y += spr.vy
             
-            spr.x = clamp(spr.x, spr.width / 2, renderer.view.width - spr.width / 2)
-            spr.y = clamp(spr.y, spr.height / 2, renderer.view.height - spr.height / 2)
+            spr.x = clamp(spr.x, spr.width / 2, pixiApp.renderer.view.width - spr.width / 2)
+            spr.y = clamp(spr.y, spr.height / 2, pixiApp.renderer.view.height - spr.height / 2)
             
-            if (spr.x === spr.width / 2 || spr.x === renderer.view.width - spr.width / 2) {
+            if (spr.x === spr.width / 2 || spr.x === pixiApp.renderer.view.width - spr.width / 2) {
                 spr.vx *= -bounceDamping
                 spr.vy *= bounceDamping
             }
             
-            if (spr.y === spr.height / 2 || spr.y === renderer.view.height - spr.height / 2) {
+            if (spr.y === spr.height / 2 || spr.y === pixiApp.renderer.view.height - spr.height / 2) {
                 spr.vy *= -bounceDamping
                 spr.vx *= bounceDamping
             }
@@ -31,8 +31,8 @@ function processTiles() {
             spr.x += spr.vx
             spr.y += spr.vy
             
-            spr.x = clamp(spr.x, spr.width / 2, renderer.view.width - spr.width / 2)
-            spr.y = clamp(spr.y, spr.height / 2, renderer.view.height - spr.height / 2)
+            spr.x = clamp(spr.x, spr.width / 2, pixiApp.renderer.view.width - spr.width / 2)
+            spr.y = clamp(spr.y, spr.height / 2, pixiApp.renderer.view.height - spr.height / 2)
 
             if (Math.abs(spr.x - spr.xStart) <= Math.abs(spr.vx)) {
                 spr.vx = 0

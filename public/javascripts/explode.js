@@ -20,7 +20,7 @@ function setup() {
 
   bunnyContainer.on('pointerdown', function () { handleClick(bunnyContainer) })
 
-  stage.addChild(bunnyContainer)
+  pixiApp.stage.addChild(bunnyContainer)
 
   let cellWidth = 400 / numColumns
   let cellHeight = 400 / numRows
