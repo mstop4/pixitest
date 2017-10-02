@@ -51,8 +51,6 @@ function processTiles() {
 
 function handleClick(container) {
 
-    console.log("Click")
-
     if (container.exploded) {
         fixTiles()
         container.exploded = false

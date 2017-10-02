@@ -32,7 +32,7 @@ function initApp() {
     stage = new PIXI.Container()
 
     fpsText = new PIXI.Text("0")
-    fpsText.x = 100
+    fpsText.x = 300
     fpsText.y = 0
 
     stage.addChild(fpsText)

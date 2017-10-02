@@ -14,10 +14,11 @@ function setup() {
   console.log("Setting up sprites...")
 
   bunnyContainer = new PIXI.Container()
+  bunnyContainer.exploded = false
   bunnyContainer.interactive = true
   bunnyContainer.buttonMode = true
 
-  bunnyContainer.on('pointerdown', handleClick(bunnyContainer))
+  bunnyContainer.on('pointerdown', function () { handleClick(bunnyContainer) })
 
   stage.addChild(bunnyContainer)
 
