@@ -1,9 +1,6 @@
 let gravity = 0.1
 let bounceDamping = 0.8
 
-let frameSkip = 0
-let fsIndex = 0
-
 function processTiles() {
     sprites.forEach( function (spr) {
 

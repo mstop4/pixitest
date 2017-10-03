@@ -1,9 +1,11 @@
 let pixiApp = undefined
 let sprites = []
+let then = window.performance.now()
 
 let fpsText = undefined
 let fpsHistory = []
-let then = window.performance.now()
+let frameSkip = 1
+let fsIndex = 0
 
 function initApp() {
 
@@ -22,6 +24,7 @@ function initApp() {
     pixiApp.renderer.view.style.position = "absolute"
     pixiApp.renderer.view.style.display = "block"
     pixiApp.renderer.autoResize = true
+    pixiApp.minFPS = 30
 
     //Add the canvas to the HTML document
     document.body.appendChild(pixiApp.view)
@@ -54,6 +57,16 @@ function loadTextures(texArray, setup) {
 function gameLoop(updateFunc) {
     requestAnimationFrame(function () { gameLoop(updateFunc) } );
 
+    updateFunc()
+
+    //Tell the `renderer` to `render` the `stage`
+    if (fsIndex === frameSkip) {
+        pixiApp.renderer.render(pixiApp.stage)
+        fsIndex = 0
+    } else {
+        fsIndex++
+    }
+
     let now = window.performance.now()
     let deltaTime = now - then
     then = now
@@ -65,14 +78,4 @@ function gameLoop(updateFunc) {
 
     let sum = fpsHistory.reduce( function (a, b) { return a+b })
     fpsText.setText(`FPS: ${(sum / fpsHistory.length).toFixed(2)}`)
-
-    updateFunc()
-
-    //Tell the `renderer` to `render` the `stage`
-    if (fsIndex === frameSkip) {
-        pixiApp.renderer.render(pixiApp.stage)
-        fsIndex = 0
-    } else {
-        fsIndex++
-    }
 }
