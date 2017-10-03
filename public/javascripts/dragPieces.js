@@ -1,5 +1,4 @@
-let textureURIs = ["../videos/waves.mp4"]
-let puzzleContainer = undefined
+let textureURIs = ["../videos/escalator.mp4"]
 let videoScale = 1
 let numRows = 4
 let numColumns = 8
@@ -12,16 +11,21 @@ loadTextures(textureURIs, setup)
 function setup() {
     console.log("Setting up video...")
 
-    //puzzleContainer = new PIXI.Container()
-    //puzzleContainer.interactive = true
-    //puzzleContainer.interactiveChildren = true
-
-    //pixiApp.stage.addChild(puzzleContainer)
-
     let outline = new PIXI.filters.OutlineFilter(2, 0x99ff99)
+    let bw = new PIXI.filters.ColorMatrixFilter()
 
-    let cellWidth = 960 / numColumns
-    let cellHeight = 540 / numRows
+    let guideTexture = PIXI.Texture.fromVideo(PIXI.loader.resources[textureURIs[0]].data)
+    guideTexture.baseTexture.source.loop = true
+    let guideSprite = new PIXI.Sprite(guideTexture)
+    guideSprite.x = xOffset
+    guideSprite.y = yOffset
+    guideSprite.filters = [bw]
+    bw.desaturate()
+
+    pixiApp.stage.addChild(guideSprite)
+
+    let cellWidth = guideTexture.width / numColumns
+    let cellHeight = guideTexture.height / numRows
 
     for (let i = 0; i < numRows; i++) {
         for (let j = 0; j < numColumns; j++) {
@@ -29,7 +33,6 @@ function setup() {
             let rect = new PIXI.Rectangle(j*cellWidth, i*cellHeight, cellWidth, cellHeight)
             let texture = PIXI.Texture.fromVideo(PIXI.loader.resources[textureURIs[0]].data)
             texture.frame = rect
-            texture.baseTexture.source.loop = true;
             let newSprite = new PIXI.Sprite(texture)
 
             newSprite.x = xOffset + (j+0.5)*(cellWidth * videoScale)
@@ -38,6 +41,9 @@ function setup() {
             newSprite.yStart = newSprite.y
             newSprite.width = cellWidth / numColumns * videoScale
             newSprite.height = cellHeight / numRows * videoScale
+            newSprite.angle = Math.floor(Math.random() * 4) * 90 * Math.PI / 180
+            newSprite.angleDelta = 10 * Math.PI / 180
+            newSprite.rotation = 0
             newSprite.anchor.set(0.5, 0.5)
             newSprite.filters = [outline]
 
@@ -56,7 +62,8 @@ function setup() {
         }
     }
 
-    gameLoop(function () {})
+    window.addEventListener("keydown", onSpacePress, false)
+    gameLoop(processPieces)
 }
 
 function onDragStart(event) {
@@ -71,13 +78,46 @@ function onDragEnd() {
     this.data = null
     this.alpha = 1
     this.dragging = false
+
+    if (Math.abs(this.x - this.xStart) < 16 && Math.abs(this.y - this.yStart) < 16 && this.rotation === this.angle) {
+        this.x = this.xStart
+        this.y = this.yStart
+    }
 }
 
 function onDragMove() {
-    console.log("Drag Move")
     if (this.dragging) {
         var newPosition = this.data.getLocalPosition(this.parent)
         this.x = newPosition.x
         this.y = newPosition.y
     }
+}
+
+function onSpacePress() {
+    console.log("Space")
+    sprites.forEach(function(spr) {
+        if (spr.dragging) {
+            spr.angle += 90 * Math.PI / 180
+        }
+    })
+}
+
+function processPieces() {
+    sprites.forEach(function(spr) {
+
+        if (spr.angle > spr.rotation) {
+            if (Math.abs(spr.angle - spr.rotation) < spr.angleDelta) {
+                spr.rotation = spr.angle
+            } else {
+                spr.rotation += spr.angleDelta
+            }
+        } else if (spr.angle < spr.rotation) {
+            if (Math.abs(spr.angle - spr.rotation) < spr.angleDelta) {
+                spr.rotation = spr.angle
+            } else {
+                spr.rotation -= spr.angleDelta
+            }
+        }
+
+    })
 }
